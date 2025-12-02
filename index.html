@@ -1,277 +1,411 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Plataforma digital de acceso libre – Tesis</title>
+    <meta charset="UTF-8" />
+    <title>Plataforma de Archivos 3D de Piezas Médicas</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Plataforma digital de acceso libre para la distribución de archivos 3D de piezas médicas para fabricación mediante CNC." />
 
-  <style>
-    :root {
-      --color-primario: #1b4965;
-      --color-secundario: #edf2f4;
-      --color-acento: #ffb703;
-      --color-texto: #222;
-      --color-blanco: #ffffff;
-    }
+    <!-- Tipografía (puedes cambiarla si quieres) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: #f5f5f5;
-      color: var(--color-texto);
-      line-height: 1.6;
-    }
-
-    header {
-      background: linear-gradient(135deg, var(--color-primario), #13293d);
-      color: var(--color-blanco);
-      padding: 2.5rem 1.5rem 3.5rem;
-      text-align: center;
-    }
-
-    header .logo {
-      font-size: 0.9rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      opacity: 0.85;
-      margin-bottom: 0.75rem;
-    }
-
-    header h1 {
-      font-size: clamp(1.8rem, 3vw, 2.4rem);
-      max-width: 780px;
-      margin: 0 auto 0.75rem;
-      font-weight: 700;
-    }
-
-    header h2 {
-      font-size: 1rem;
-      font-weight: 400;
-      max-width: 620px;
-      margin: 0 auto;
-      opacity: 0.95;
-    }
-
-    header p.meta {
-      margin-top: 1.5rem;
-      font-size: 0.95rem;
-      opacity: 0.9;
-    }
-
-    main {
-      max-width: 1080px;
-      margin: -2rem auto 3rem;
-      padding: 0 1rem 2rem;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 1.5rem;
-    }
-
-    .card {
-      background: var(--color-blanco);
-      border-radius: 0.9rem;
-      padding: 1.5rem 1.6rem;
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.06);
-      border: 1px solid rgba(0, 0, 0, 0.03);
-    }
-
-    .card h3 {
-      font-size: 1.1rem;
-      margin-bottom: 0.75rem;
-      color: var(--color-primario);
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-    }
-
-    .badge {
-      display: inline-block;
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      background: rgba(27, 73, 101, 0.06);
-      color: var(--color-primario);
-      padding: 0.2rem 0.6rem;
-      border-radius: 999px;
-      margin-bottom: 0.6rem;
-    }
-
-    .card p {
-      font-size: 0.92rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .card ul {
-      padding-left: 1.1rem;
-      font-size: 0.9rem;
-      margin-top: 0.3rem;
-    }
-
-    .card ul li {
-      margin-bottom: 0.25rem;
-    }
-
-    section {
-      margin-top: 2rem;
-    }
-
-    section h2 {
-      font-size: 1.3rem;
-      margin-bottom: 0.75rem;
-      color: var(--color-primario);
-    }
-
-    .objetivos-lista li {
-      margin-bottom: 0.35rem;
-    }
-
-    .pill {
-      display: inline-block;
-      padding: 0.18rem 0.6rem;
-      border-radius: 999px;
-      font-size: 0.8rem;
-      background: var(--color-secundario);
-      margin-right: 0.25rem;
-      margin-bottom: 0.25rem;
-    }
-
-    footer {
-      text-align: center;
-      font-size: 0.8rem;
-      padding: 1.5rem 1rem 2rem;
-      color: #555;
-    }
-
-    a.btn {
-      display: inline-block;
-      margin-top: 0.75rem;
-      background: var(--color-acento);
-      color: #111;
-      text-decoration: none;
-      padding: 0.45rem 0.9rem;
-      border-radius: 999px;
-      font-size: 0.85rem;
-      font-weight: 600;
-    }
-
-    @media (max-width: 600px) {
-      header {
-        padding-inline: 1rem;
-      }
-
-      .card {
-        padding-inline: 1.25rem;
-      }
-    }
-  </style>
+    <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <header>
-    <div class="logo">Universidad La Salle Victoria</div>
-    <h1>
-      Plataforma digital de acceso libre para la distribución de archivos 3D de piezas médicas para su fabricación mediante Control Numérico Computacional
-    </h1>
-    <h2>
-      Proyecto de tesis de Ingeniería Biomédica orientado a la fabricación local de repuestos para equipos médicos.
-    </h2>
-    <p class="meta">
-      Autor: Edgar Adriel Ramírez Aguilar · Ciudad Victoria, Tamaulipas · 2025
-    </p>
-  </header>
+    <header class="site-header">
+        <div class="container nav-container">
+            <div class="logo">
+                <span class="logo-mark">3D</span>
+                <span class="logo-text">Piezas Médicas CNC</span>
+            </div>
 
-  <main>
-    <!-- Tarjetas principales como en las secciones de tu tesis -->
-    <section class="grid">
-      <article class="card">
-        <span class="badge">Antecedentes</span>
-        <h3>Contexto del problema</h3>
-        <p>
-          Los hospitales enfrentan retrasos y altos costos al adquirir repuestos para equipos médicos,
-          especialmente cuando dependen de proveedores externos e importaciones.
-        </p>
-        <p>
-          La fabricación digital y el Control Numérico Computacional abren la posibilidad de producir
-          localmente piezas críticas a partir de modelos 3D validados.
-        </p>
-      </article>
+            <button class="nav-toggle" id="navToggle" aria-label="Abrir menú">
+                ☰
+            </button>
 
-      <article class="card">
-        <span class="badge">Planteamiento</span>
-        <h3>¿Qué busca resolver la plataforma?</h3>
-        <p>
-          Crear un repositorio digital de acceso libre donde técnicos biomédicos puedan
-          consultar, descargar y fabricar piezas médicas estandarizadas, reduciendo
-          tiempos de espera y costos de mantenimiento.
-        </p>
-        <ul>
-          <li>Acceso rápido a archivos 3D.</li>
-          <li>Clasificación clara por equipo y tipo de pieza.</li>
-          <li>Modelos pensados para manufactura local.</li>
-        </ul>
-      </article>
-
-      <article class="card">
-        <span class="badge">Objetivo general</span>
-        <h3>Meta del proyecto</h3>
-        <p>
-          Desarrollar una plataforma digital de acceso libre para la distribución de archivos
-          3D de piezas médicas, que facilite su fabricación local mediante Control Numérico
-          Computacional y optimice el mantenimiento de equipos médicos.
-        </p>
-        <a href="#objetivos" class="btn">Ver objetivos específicos</a>
-      </article>
-    </section>
-
-    <!-- Objetivos y secciones tipo índice de capítulo -->
-    <section id="objetivos">
-      <h2>Objetivos específicos</h2>
-      <div class="card">
-        <ul class="objetivos-lista">
-          <li>Diseñar una interfaz web intuitiva para consultar y descargar archivos 3D.</li>
-          <li>Implementar un sistema de clasificación por equipo, tipo de pieza y material.</li>
-          <li>Probar la viabilidad técnica y económica de la fabricación local frente al modelo tradicional.</li>
-          <li>Realizar pruebas piloto en instituciones de salud de Ciudad Victoria.</li>
-          <li>Proponer estrategias para la adopción y expansión de la plataforma en otros hospitales.</li>
-        </ul>
-      </div>
-    </section>
-
-    <section>
-      <h2>Estructura del sitio (basada en tu tesis)</h2>
-      <div class="card">
-        <p>Este sitio puede crecer siguiendo la misma lógica de capítulos de tu tesis:</p>
-        <div>
-          <span class="pill">Antecedentes</span>
-          <span class="pill">Planteamiento del problema</span>
-          <span class="pill">Justificación</span>
-          <span class="pill">Objetivos y preguntas</span>
-          <span class="pill">Metodología</span>
-          <span class="pill">Prototipo</span>
-          <span class="pill">Resultados</span>
-          <span class="pill">Conclusiones</span>
+            <nav class="main-nav" id="mainNav">
+                <a href="#inicio">Inicio</a>
+                <a href="#catalogo">Catálogo</a>
+                <a href="#metodologia">Metodología</a>
+                <a href="#resultados">Resultados</a>
+                <a href="#validacion">Validación técnica</a>
+                <a href="#acerca">Acerca del proyecto</a>
+                <a href="#contacto">Contacto</a>
+            </nav>
         </div>
-        <p style="margin-top:0.75rem;">
-          Puedes ir agregando nuevas secciones como páginas o bloques adicionales,
-          por ejemplo un apartado con capturas del prototipo en GitHub, otro con
-          instrucciones de uso para los hospitales, y uno más con descargas de
-          documentos relacionados.
-        </p>
-      </div>
-    </section>
-  </main>
+    </header>
 
-  <footer>
-    Sitio desarrollado como apoyo a la tesis de Ingeniería Biomédica sobre plataformas
-    digitales y fabricación local de repuestos médicos.
-  </footer>
+    <main>
+        <!-- LANDING / INICIO -->
+        <section id="inicio" class="hero">
+            <div class="container hero-grid">
+                <div class="hero-text">
+                    <h1>Plataforma digital de acceso libre para archivos 3D de piezas médicas</h1>
+                    <p class="hero-subtitle">
+                        Proyecto de tesis de Ingeniería Biomédica:<br>
+                        <strong>“Plataforma digital de acceso libre para la distribución de archivos 3D de piezas médicas para su fabricación mediante Control Numérico Computacional”.</strong>
+                    </p>
+
+                    <div class="hero-actions">
+                        <a href="#catalogo" class="btn btn-primary">Ver catálogo de piezas</a>
+                        <a href="#metodologia" class="btn btn-outline">Ver metodología del prototipo</a>
+                    </div>
+
+                    <div class="hero-tags">
+                        <span class="tag">Acceso libre</span>
+                        <span class="tag">Fabricación CNC</span>
+                        <span class="tag">Ingeniería Biomédica</span>
+                    </div>
+                </div>
+
+                <div class="hero-card">
+                    <h2>Objetivo general</h2>
+                    <p>
+                        Desarrollar una plataforma digital de acceso libre que centralice, organice y distribuya
+                        archivos 3D de piezas médicas, optimizados para su fabricación mediante Control Numérico
+                        Computacional, contribuyendo a mejorar la disponibilidad, trazabilidad y reproducibilidad
+                        de estos componentes en entornos biomédicos.
+                    </p>
+
+                    <h3>Alcance</h3>
+                    <ul>
+                        <li>Repositorio estructurado de archivos 3D.</li>
+                        <li>Metadatos técnicos y parámetros de mecanizado CNC.</li>
+                        <li>Lineamientos de seguridad y validación biomédica.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- CATÁLOGO -->
+        <section id="catalogo" class="section">
+            <div class="container">
+                <header class="section-header">
+                    <h2>Catálogo de archivos 3D</h2>
+                    <p>Explora las piezas médicas disponibles, filtra por categoría, material y compatibilidad, y descarga los modelos 3D para su fabricación mediante CNC.</p>
+                </header>
+
+                <div class="catalog-controls">
+                    <div class="field">
+                        <label for="searchInput">Buscador</label>
+                        <input type="text" id="searchInput" placeholder="Buscar por nombre, tipo de pieza, uso..." />
+                    </div>
+
+                    <div class="field">
+                        <label for="filterCategoria">Categoría</label>
+                        <select id="filterCategoria">
+                            <option value="">Todas</option>
+                        </select>
+                    </div>
+
+                    <div class="field">
+                        <label for="filterTipo">Tipo de pieza</label>
+                        <select id="filterTipo">
+                            <option value="">Todas</option>
+                        </select>
+                    </div>
+
+                    <div class="field">
+                        <label for="filterMaterial">Material recomendado</label>
+                        <select id="filterMaterial">
+                            <option value="">Todos</option>
+                        </select>
+                    </div>
+
+                    <div class="field">
+                        <label for="filterCompatibilidad">Compatibilidad</label>
+                        <select id="filterCompatibilidad">
+                            <option value="">Todas</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="catalogoGrid" class="catalog-grid">
+                    <!-- Las tarjetas se generan dinámicamente con script.js -->
+                </div>
+
+                <p class="small muted">
+                    *El contador de descargas es una simulación local para fines de evaluación del prototipo.
+                </p>
+            </div>
+        </section>
+
+        <!-- METODOLOGÍA DEL PROTOTIPO -->
+        <section id="metodologia" class="section section-alt">
+            <div class="container">
+                <header class="section-header">
+                    <h2>Metodología del prototipo</h2>
+                    <p>Descripción resumida del proceso metodológico seguido para el desarrollo de la plataforma y del prototipo de distribución de archivos 3D.</p>
+                </header>
+
+                <div class="two-column">
+                    <article class="card">
+                        <h3>Metodología</h3>
+                        <p>
+                            La metodología empleada se enmarca en un enfoque de investigación aplicada, orientada al
+                            diseño y validación de un prototipo funcional. El proceso se estructuró en etapas:
+                            revisión bibliográfica, análisis de requerimientos, diseño de la arquitectura del sistema,
+                            desarrollo de la plataforma, integración del catálogo de piezas médicas y evaluación técnica.
+                        </p>
+                        <p>
+                            En la fase de revisión bibliográfica se identificaron las principales tendencias en
+                            fabricación digital de dispositivos médicos, normativa aplicable y experiencias previas
+                            en repositorios abiertos de modelos 3D. A partir de ello se definieron los criterios de
+                            diseño enfocados en la seguridad del paciente, la trazabilidad de los modelos y la
+                            reproducibilidad del proceso de fabricación CNC.
+                        </p>
+                        <p>
+                            El desarrollo del prototipo se llevó a cabo mediante iteraciones cortas, implementando
+                            versiones parciales de la plataforma y realizando ajustes en función de pruebas internas
+                            y retroalimentación de especialistas en ingeniería biomédica.
+                        </p>
+                    </article>
+
+                    <article class="card">
+                        <h3>Prototipo</h3>
+                        <p>
+                            El prototipo consiste en una plataforma web estática, implementada con tecnologías
+                            HTML, CSS y JavaScript, alojada en GitHub Pages. El sistema permite consultar un catálogo
+                            de piezas médicas, visualizar información técnica estructurada y descargar los archivos 3D
+                            en formatos compatibles con flujos de trabajo de diseño asistido por computadora (CAD/CAM)
+                            y fabricación CNC.
+                        </p>
+                        <p>
+                            Cada pieza del catálogo incluye una ficha técnica con parámetros relevantes para el
+                            mecanizado, materiales recomendados y advertencias de uso. La plataforma incorpora
+                            además un simulador de contador de descargas, filtros avanzados y una plantilla
+                            estandarizada para facilitar la incorporación de nuevas piezas.
+                        </p>
+                        <p>
+                            La arquitectura propuesta favorece la escalabilidad, ya que permite ampliar el catálogo
+                            sin requerir modificaciones en el backend, manteniendo al mismo tiempo una organización
+                            clara de los archivos y metadatos asociados.
+                        </p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- RESULTADOS OBTENIDOS -->
+        <section id="resultados" class="section">
+            <div class="container">
+                <header class="section-header">
+                    <h2>Resultados obtenidos</h2>
+                    <p>Resumen de los principales hallazgos derivados del desarrollo y evaluación del prototipo.</p>
+                </header>
+
+                <div class="results-grid">
+                    <article class="card">
+                        <h3>Análisis de resultados</h3>
+                        <p>
+                            La implementación del prototipo permitió demostrar la viabilidad técnica de una
+                            plataforma digital de acceso libre para la distribución de archivos 3D de piezas médicas.
+                            El catálogo desarrollado integra modelos con diferentes niveles de complejidad geométrica,
+                            demostrando la compatibilidad con flujos de trabajo de mecanizado CNC en tres ejes.
+                        </p>
+                        <p>
+                            Las pruebas de uso con usuarios tipo (estudiantes y profesionales de ingeniería biomédica)
+                            evidenciaron que la estructura de navegación, los filtros y el buscador interno facilitan la
+                            localización de piezas específicas, reduciendo el tiempo de acceso a la información técnica.
+                        </p>
+                    </article>
+
+                    <article class="card">
+                        <h3>Conclusiones</h3>
+                        <p>
+                            La plataforma desarrollada constituye una herramienta de apoyo para la comunidad biomédica,
+                            al ofrecer un repositorio organizado de modelos 3D listos para su fabricación mediante CNC.
+                            El uso de tecnologías web abiertas y de un esquema de datos basado en JSON facilita la
+                            interoperabilidad con otros sistemas y la futura integración de mecanismos de validación
+                            más avanzados.
+                        </p>
+                        <p>
+                            Se concluye que un enfoque de acceso libre, acompañado de documentación técnica clara y
+                            advertencias de seguridad, puede contribuir a una adopción más responsable de la fabricación
+                            digital de piezas médicas en entornos académicos y de investigación.
+                        </p>
+                    </article>
+
+                    <article class="card">
+                        <h3>Recomendaciones y trabajos futuros</h3>
+                        <p>
+                            Como trabajo futuro se propone ampliar el catálogo de piezas incorporando modelos
+                            diseñados en colaboración con especialistas clínicos, así como implementar mecanismos
+                            formales de validación experimental y clínica de cada componente.
+                        </p>
+                        <p>
+                            Se recomienda integrar módulos adicionales para gestionar versiones de archivos,
+                            registrar evidencia de validación (ensayos mecánicos, pruebas de biocompatibilidad) y
+                            vincular la plataforma con repositorios institucionales y normativas vigentes.
+                        </p>
+                        <p>
+                            Finalmente, se sugiere explorar la incorporación de herramientas de visualización 3D
+                            interactiva en el navegador y la generación automatizada de documentación técnica para
+                            cada pieza a partir de los metadatos almacenados.
+                        </p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- VALIDACIÓN TÉCNICA -->
+        <section id="validacion" class="section section-alt">
+            <div class="container">
+                <header class="section-header">
+                    <h2>Validación técnica</h2>
+                    <p>Descripción de las pruebas técnicas realizadas para comprobar la viabilidad de los modelos 3D y su fabricación mediante CNC.</p>
+                </header>
+
+                <article class="card">
+                    <h3>Alcance de la validación</h3>
+                    <p>
+                        La validación técnica se centró en verificar la integridad geométrica de los modelos 3D,
+                        su compatibilidad con software de CAM y la fabricación de prototipos físicos mediante
+                        fresado CNC. Se realizaron pruebas de importación de los archivos STL a diferentes
+                        entornos de programación de trayectoria, evaluando la presencia de errores de malla,
+                        superficies abiertas y elementos no manufacturables.
+                    </p>
+                    <p>
+                        Para un subconjunto de piezas se generaron trayectorias de herramienta en tres ejes,
+                        confirmando que las estrategias de desbaste y acabado eran factibles con herramientas
+                        estándar y parámetros de corte dentro de rangos aceptables para los materiales recomendados.
+                    </p>
+
+                    <h3>Limitaciones</h3>
+                    <ul>
+                        <li>La validación se realizó sobre un número limitado de piezas y escenarios de fabricación.</li>
+                        <li>No se incluyeron pruebas clínicas ni de biocompatibilidad de materiales.</li>
+                        <li>El contador de descargas y el registro de uso son simulados y no constituyen evidencia de adopción clínica.</li>
+                    </ul>
+                </article>
+            </div>
+        </section>
+
+        <!-- ACERCA DEL PROYECTO -->
+        <section id="acerca" class="section">
+            <div class="container">
+                <header class="section-header">
+                    <h2>Acerca del proyecto</h2>
+                    <p>Resumen estructurado de los principales apartados de la tesis.</p>
+                </header>
+
+                <div class="two-column">
+                    <article class="card">
+                        <h3>Antecedentes</h3>
+                        <p>
+                            En los últimos años, la fabricación digital ha cobrado relevancia en el desarrollo de
+                            dispositivos médicos personalizados y de bajo volumen de producción. Tecnologías como
+                            la impresión 3D y el mecanizado CNC han permitido reducir tiempos de fabricación y costos,
+                            favoreciendo la creación de guías quirúrgicas, adaptadores y componentes auxiliares
+                            para procedimientos clínicos.
+                        </p>
+                        <p>
+                            Sin embargo, la disponibilidad de repositorios estructurados de modelos 3D específicamente
+                            orientados a aplicaciones biomédicas sigue siendo limitada, y en muchos casos los modelos
+                            no cuentan con información técnica suficiente para garantizar un uso seguro y reproducible.
+                        </p>
+
+                        <h3>Planteamiento del problema</h3>
+                        <p>
+                            La ausencia de una plataforma de acceso libre que integre archivos 3D de piezas médicas
+                            con información técnica estandarizada dificulta la reutilización de diseños, la
+                            colaboración entre instituciones y la trazabilidad de las modificaciones realizadas
+                            sobre un modelo. Esto genera riesgos asociados a la fabricación de componentes sin
+                            validación suficiente y limita el aprovechamiento del potencial de las tecnologías CNC
+                            en el ámbito biomédico.
+                        </p>
+
+                        <h3>Justificación</h3>
+                        <p>
+                            Contar con una plataforma digital que concentre archivos 3D validados, acompañados de
+                            parámetros de fabricación y advertencias de seguridad, puede apoyar procesos de diseño,
+                            docencia e investigación en ingeniería biomédica. Además, promueve el acceso abierto al
+                            conocimiento, favoreciendo la estandarización y comparación de resultados entre distintos
+                            grupos de trabajo.
+                        </p>
+                    </article>
+
+                    <article class="card">
+                        <h3>Objetivo general</h3>
+                        <p>
+                            Diseñar e implementar una plataforma digital de acceso libre para la distribución de
+                            archivos 3D de piezas médicas, estructurada para su fabricación mediante Control
+                            Numérico Computacional y orientada a mejorar la disponibilidad y trazabilidad de estos
+                            modelos en contextos académicos y de investigación biomédica.
+                        </p>
+
+                        <h3>Objetivos específicos</h3>
+                        <ul>
+                            <li>Analizar requerimientos técnicos y normativos asociados a la fabricación de piezas médicas mediante CNC.</li>
+                            <li>Definir una estructura de datos para describir archivos 3D, parámetros de mecanizado y advertencias de seguridad.</li>
+                            <li>Desarrollar una plataforma web estática que permita consultar, filtrar y descargar modelos 3D.</li>
+                            <li>Implementar un prototipo de catálogo con piezas representativas y evaluar su funcionamiento técnico.</li>
+                            <li>Documentar el proceso de diseño y los resultados obtenidos, proponiendo líneas de trabajo futuro.</li>
+                        </ul>
+
+                        <h3>Trabajos futuros</h3>
+                        <p>
+                            Se propone incorporar módulos de autenticación para el control de versiones y la
+                            publicación de nuevos modelos por parte de colaboradores, así como integrar flujos de
+                            aprobación que incluyan revisión por comités éticos y especialistas clínicos. Otra línea
+                            de trabajo es la integración con sistemas de gestión hospitalaria y registros clínicos
+                            electrónicos, permitiendo vincular modelos a casos de uso específicos.
+                        </p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTACTO -->
+        <section id="contacto" class="section section-alt">
+            <div class="container">
+                <header class="section-header">
+                    <h2>Contacto del autor</h2>
+                    <p>Información de contacto y enlace al repositorio del proyecto.</p>
+                </header>
+
+                <div class="contact-grid">
+                    <div class="card">
+                        <h3>Autor</h3>
+                        <p><strong>Nombre del autor:</strong> [Tu nombre completo]</p>
+                        <p><strong>Programa:</strong> Ingeniería Biomédica</p>
+                        <p><strong>Correo electrónico:</strong> <a href="mailto:tu.correo@ejemplo.com">tu.correo@ejemplo.com</a></p>
+                    </div>
+                    <div class="card">
+                        <h3>Repositorio GitHub</h3>
+                        <p>Puedes consultar el código fuente y los archivos del proyecto en el siguiente enlace:</p>
+                        <p>
+                            <a class="btn btn-primary" href="https://github.com/tu-usuario/tu-repo-plataforma-3d" target="_blank" rel="noopener">
+                                Ver repositorio en GitHub
+                            </a>
+                        </p>
+                        <p class="small muted">
+                            Actualiza este enlace con la URL real de tu repositorio.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-grid">
+            <div>
+                <p class="footer-title">Plataforma de archivos 3D de piezas médicas</p>
+                <p class="small">
+                    Proyecto de tesis de Ingeniería Biomédica. Uso académico y de investigación. No sustituye la
+                    validación clínica ni regulatoria de dispositivos médicos.
+                </p>
+            </div>
+            <div class="footer-col">
+                <p class="small"><strong>Institución:</strong> [Nombre de la institución]</p>
+                <p class="small"><strong>Facultad:</strong> [Nombre de la facultad]</p>
+                <p class="small"><strong>Año:</strong> [Año]</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>
-
