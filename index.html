@@ -1,411 +1,1181 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8" />
-    <title>Plataforma de Archivos 3D de Piezas Médicas</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Plataforma digital de acceso libre para la distribución de archivos 3D de piezas médicas para fabricación mediante CNC." />
+  <meta charset="UTF-8" />
+  <title>Archivos 3D Médicos – Plataforma</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <!-- Tipografía (puedes cambiarla si quieres) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-page: #f2f4f8;
+      --bg-card: #ffffff;
+      --bg-main: #f8fafc;
+      --primary: #2563eb;
+      --primary-soft: #e0edff;
+      --text-main: #111827;
+      --text-soft: #6b7280;
+      --border-soft: #e5e7eb;
+      --success: #16a34a;
+      --danger: #dc2626;
+      --warning: #f97316;
+      --radius-lg: 18px;
+      --radius-md: 12px;
+      --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.12);
+    }
 
-    <link rel="stylesheet" href="styles.css" />
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #e5edff 0, #f9fafb 38%, #eef2ff 100%);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    .shell {
+      width: 100%;
+      max-width: 1240px;
+      background: linear-gradient(180deg, #0f172a 0, #111827 32%, #020617 100%);
+      border-radius: 28px;
+      padding: 1.6rem 1.6rem 1.8rem;
+      box-shadow: 0 32px 80px rgba(15, 23, 42, 0.5);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .shell::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top left, rgba(59,130,246,.28), transparent 55%),
+                  radial-gradient(circle at top right, rgba(129,140,248,.26), transparent 55%);
+      opacity: .75;
+      pointer-events: none;
+    }
+
+    .shell-inner {
+      position: relative;
+      background: var(--bg-main);
+      border-radius: 22px;
+      padding: 1.4rem 1.4rem 1.6rem;
+      box-shadow: var(--shadow-soft);
+      border: 1px solid rgba(148,163,184,.35);
+    }
+
+    /* Barra superior */
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+      gap: 1rem;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .brand-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      background: linear-gradient(145deg, #2563eb, #1d4ed8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #eff6ff;
+      font-weight: 700;
+      font-size: 1.1rem;
+      box-shadow: 0 10px 25px rgba(37,99,235,.4);
+    }
+
+    .brand-text-title {
+      font-size: 1.02rem;
+      font-weight: 700;
+      letter-spacing: .03em;
+    }
+
+    .brand-text-sub {
+      font-size: .78rem;
+      color: var(--text-soft);
+      line-height: 1.1;
+    }
+
+    .nav {
+      display: flex;
+      gap: .5rem;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .nav button {
+      border: none;
+      background: transparent;
+      padding: .45rem .85rem;
+      border-radius: 999px;
+      font-size: .8rem;
+      display: inline-flex;
+      align-items: center;
+      gap: .35rem;
+      color: var(--text-soft);
+      cursor: pointer;
+      transition: all .18s ease-out;
+    }
+
+    .nav button span.dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #cbd5f5;
+    }
+
+    .nav button.active {
+      background: #e0ebff;
+      color: #1d4ed8;
+      font-weight: 600;
+    }
+
+    .nav button.active span.dot {
+      background: #2563eb;
+    }
+
+    /* Buscador */
+
+    .search-row {
+      margin-top: .2rem;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: .8rem;
+      flex-wrap: wrap;
+    }
+
+    .search-box {
+      flex: 1 1 260px;
+      background: #f9fafb;
+      border-radius: 999px;
+      border: 1px solid var(--border-soft);
+      display: flex;
+      align-items: center;
+      padding: .45rem .85rem;
+      box-shadow: 0 10px 25px rgba(15,23,42,.04);
+    }
+
+    .search-icon {
+      font-size: 1.1rem;
+      color: var(--text-soft);
+      margin-right: .4rem;
+    }
+
+    .search-box input {
+      border: none;
+      outline: none;
+      background: transparent;
+      width: 100%;
+      font-size: .9rem;
+      color: var(--text-main);
+    }
+
+    .search-box input::placeholder {
+      color: #9ca3af;
+    }
+
+    .user-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      padding: .4rem .75rem;
+      border-radius: 999px;
+      background: #e0edff;
+      color: #1d4ed8;
+      font-size: .78rem;
+      cursor: default;
+    }
+
+    .user-pill-avatar {
+      width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      background: linear-gradient(135deg,#60a5fa,#4f46e5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #eff6ff;
+      font-size: .75rem;
+      font-weight: 600;
+    }
+
+    /* Layout principal */
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.5fr) minmax(0, 1.2fr);
+      gap: 1rem;
+    }
+
+    @media (max-width: 900px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Módulo repositorio (izquierda) */
+
+    .panel {
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      padding: 1rem;
+      border: 1px solid var(--border-soft);
+      box-shadow: 0 14px 32px rgba(15,23,42,.08);
+      min-height: 260px;
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: .7rem;
+      gap: .4rem;
+    }
+
+    .panel-title {
+      font-size: .95rem;
+      font-weight: 700;
+    }
+
+    .panel-sub {
+      font-size: .76rem;
+      color: var(--text-soft);
+    }
+
+    .panel-badge {
+      font-size: .7rem;
+      padding: .2rem .6rem;
+      border-radius: 999px;
+      background: #eef2ff;
+      color: #4338ca;
+      font-weight: 500;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: .7rem;
+      margin-top: .4rem;
+    }
+
+    .card {
+      background: #f9fafb;
+      border-radius: var(--radius-md);
+      padding: .7rem .7rem .75rem;
+      border: 1px solid #e5e7eb;
+      cursor: pointer;
+      transition: all .2s ease-out;
+      display: flex;
+      flex-direction: column;
+      gap: .35rem;
+    }
+
+    .card:hover {
+      border-color: #bfdbfe;
+      box-shadow: 0 14px 32px rgba(37,99,235,.22);
+      transform: translateY(-2px);
+      background: #ffffff;
+    }
+
+    .card-thumb {
+      height: 82px;
+      border-radius: 12px;
+      background: radial-gradient(circle at 20% 0, #bfdbfe 0, #dbeafe 28%, #eff6ff 75%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: .2rem;
+    }
+
+    .card-thumb-shape {
+      width: 70%;
+      height: 52%;
+      border-radius: 999px;
+      background: linear-gradient(145deg,#3b82f6,#2563eb);
+      box-shadow: 0 16px 30px rgba(37,99,235,.4);
+      position: relative;
+    }
+
+    .card-thumb-shape::after {
+      content: "";
+      position: absolute;
+      right: -18%;
+      top: 18%;
+      width: 50%;
+      height: 64%;
+      border-radius: 999px;
+      background: linear-gradient(135deg,#60a5fa,#1d4ed8);
+      box-shadow: 0 12px 22px rgba(37,99,235,.5);
+    }
+
+    .card-name {
+      font-size: .9rem;
+      font-weight: 600;
+    }
+
+    .card-meta {
+      font-size: .76rem;
+      color: var(--text-soft);
+    }
+
+    .status-pill {
+      align-self: flex-start;
+      font-size: .7rem;
+      padding: .18rem .6rem;
+      border-radius: 999px;
+      background: #dcfce7;
+      color: #15803d;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: .25rem;
+      margin-top: .15rem;
+    }
+
+    .status-pill::before {
+      content: "✓";
+      font-size: .75rem;
+    }
+
+    /* Panel derecho: vistas */
+
+    .view {
+      display: none;
+      height: 100%;
+    }
+
+    .view.active {
+      display: block;
+    }
+
+    .detail-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+      gap: .7rem;
+      margin-top: .4rem;
+    }
+
+    @media (max-width: 800px) {
+      .detail-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .detail-main,
+    .detail-side {
+      background: #f9fafb;
+      border-radius: var(--radius-md);
+      padding: .75rem;
+      border: 1px solid var(--border-soft);
+    }
+
+    .detail-main {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: .5rem;
+    }
+
+    .detail-main-item {
+      background: #ffffff;
+      border-radius: 10px;
+      padding: .55rem;
+      border: 1px solid #e5e7eb;
+    }
+
+    .detail-main-item.large {
+      grid-column: span 2;
+      height: 150px;
+      background: radial-gradient(circle at 18% 0, #bfdbfe 0, #dbeafe 30%, #eff6ff 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .detail-shape {
+      width: 58%;
+      height: 54%;
+      border-radius: 999px;
+      background: linear-gradient(135deg,#3b82f6,#1e40af);
+      box-shadow: 0 18px 30px rgba(37,99,235,.5);
+      position: relative;
+    }
+
+    .detail-shape::after {
+      content: "";
+      position: absolute;
+      right: -24%;
+      top: 24%;
+      width: 60%;
+      height: 64%;
+      border-radius: 999px;
+      background: linear-gradient(145deg,#60a5fa,#2563eb);
+      box-shadow: 0 18px 30px rgba(37,99,235,.55);
+    }
+
+    .detail-sketch {
+      height: 90px;
+      border-radius: 10px;
+      border: 1px dashed #bfdbfe;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .75rem;
+      color: #60a5fa;
+      background: #eff6ff;
+    }
+
+    .detail-side-title {
+      font-size: .95rem;
+      font-weight: 700;
+      margin-bottom: .25rem;
+    }
+
+    .detail-side-meta {
+      font-size: .8rem;
+      color: var(--text-soft);
+      margin-bottom: .2rem;
+    }
+
+    dl {
+      margin: .25rem 0 .65rem;
+    }
+
+    dt {
+      font-size: .78rem;
+      color: #6b7280;
+    }
+
+    dd {
+      font-size: .85rem;
+      font-weight: 600;
+      margin-bottom: .25rem;
+    }
+
+    .btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: .35rem;
+      margin-top: .35rem;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 999px;
+      padding: .4rem .8rem;
+      font-size: .82rem;
+      cursor: pointer;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: .35rem;
+      transition: transform .12s ease-out, box-shadow .12s ease-out, background .12s ease-out;
+      color: #f9fafb;
+    }
+
+    .btn-primary { background: #16a34a; box-shadow: 0 8px 18px rgba(22,163,74,.35); }
+    .btn-blue { background: #2563eb; box-shadow: 0 8px 18px rgba(37,99,235,.35); }
+    .btn-amber { background: #f97316; box-shadow: 0 8px 18px rgba(249,115,22,.35); }
+    .btn-disabled {
+      background: #e5e7eb;
+      color: #9ca3af;
+      cursor: default;
+      box-shadow: none;
+    }
+
+    .btn:not(.btn-disabled):hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 20px rgba(15,23,42,.25);
+    }
+
+    .badge-soft {
+      display: inline-flex;
+      align-items: center;
+      gap: .25rem;
+      border-radius: 999px;
+      padding: .16rem .55rem;
+      background: #e0f2fe;
+      color: #0369a1;
+      font-size: .7rem;
+      font-weight: 500;
+      margin-top: .2rem;
+    }
+
+    .section-title {
+      font-size: .95rem;
+      font-weight: 700;
+      margin-bottom: .3rem;
+    }
+
+    .section-text {
+      font-size: .8rem;
+      color: var(--text-soft);
+    }
+
+    /* Registro */
+
+    .form-card {
+      background: #f9fafb;
+      border-radius: var(--radius-md);
+      padding: .85rem;
+      border: 1px solid var(--border-soft);
+      max-width: 360px;
+    }
+
+    .form-title {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: .4rem;
+      text-align: center;
+    }
+
+    .form-group {
+      margin-bottom: .45rem;
+    }
+
+    .form-label {
+      font-size: .78rem;
+      color: var(--text-soft);
+      margin-bottom: .15rem;
+      display: block;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: .38rem .7rem;
+      border-radius: 999px;
+      border: 1px solid var(--border-soft);
+      font-size: .8rem;
+      outline: none;
+      background: #ffffff;
+    }
+
+    .form-input:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 1px rgba(37,99,235,.22);
+    }
+
+    .form-footer {
+      margin-top: .35rem;
+      font-size: .74rem;
+      color: var(--text-soft);
+      text-align: center;
+    }
+
+    /* Preferencias */
+
+    .prefs-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+      gap: .7rem;
+    }
+
+    @media (max-width: 800px) {
+      .prefs-grid { grid-template-columns: 1fr; }
+    }
+
+    .toggle-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: .8rem;
+      padding: .3rem 0;
+    }
+
+    .toggle-label {
+      max-width: 70%;
+      color: var(--text-soft);
+    }
+
+    .chip-group {
+      display: inline-flex;
+      border-radius: 999px;
+      border: 1px solid var(--border-soft);
+      overflow: hidden;
+      background: #f3f4f6;
+      margin-top: .25rem;
+    }
+
+    .chip {
+      padding: .28rem .8rem;
+      font-size: .78rem;
+      border-right: 1px solid #e5e7eb;
+      cursor: pointer;
+      color: var(--text-soft);
+    }
+
+    .chip:last-child { border-right: none; }
+
+    .chip.active {
+      background: #2563eb;
+      color: #eff6ff;
+      font-weight: 600;
+    }
+
+    .switch {
+      width: 40px;
+      height: 22px;
+      border-radius: 999px;
+      background: #e5e7eb;
+      padding: 2px;
+      display: flex;
+      align-items: center;
+    }
+
+    .switch-thumb {
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      background: #ffffff;
+      box-shadow: 0 1px 4px rgba(15,23,42,.35);
+      transform: translateX(0);
+      transition: transform .16s ease-out, background .16s ease-out;
+    }
+
+    .switch.on {
+      background: #2563eb;
+    }
+
+    .switch.on .switch-thumb {
+      transform: translateX(16px);
+      background: #eff6ff;
+    }
+
+    /* Historial */
+
+    .history-list {
+      margin-top: .5rem;
+      display: flex;
+      flex-direction: column;
+      gap: .4rem;
+    }
+
+    .history-item {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: .6rem;
+      padding: .4rem .6rem;
+      background: #f9fafb;
+      border-radius: 999px;
+      border: 1px solid var(--border-soft);
+      font-size: .8rem;
+      align-items: center;
+    }
+
+    .history-badge {
+      min-width: 42px;
+      text-align: center;
+      padding: .2rem .4rem;
+      border-radius: 999px;
+      font-size: .72rem;
+      font-weight: 600;
+      color: #f9fafb;
+    }
+
+    .badge-stl { background: #2563eb; }
+    .badge-step { background: #0d9488; }
+    .badge-obj { background: #f97316; }
+    .badge-pdf { background: #dc2626; }
+
+    .history-meta {
+      color: var(--text-soft);
+      font-size: .75rem;
+    }
+
+    .history-date {
+      font-size: .72rem;
+      color: #9ca3af;
+      text-align: right;
+    }
+
+    .btn-outline {
+      border-radius: 999px;
+      border: 1px solid #e5e7eb;
+      background: #ffffff;
+      padding: .28rem .7rem;
+      font-size: .76rem;
+      cursor: pointer;
+    }
+
+    /* Footer */
+
+    .footer {
+      margin-top: 1.1rem;
+      font-size: .72rem;
+      color: #9ca3af;
+      text-align: center;
+    }
+  </style>
 </head>
 <body>
-    <header class="site-header">
-        <div class="container nav-container">
-            <div class="logo">
-                <span class="logo-mark">3D</span>
-                <span class="logo-text">Piezas Médicas CNC</span>
+  <div class="shell">
+    <div class="shell-inner">
+      <!-- Topbar -->
+      <div class="topbar">
+        <div class="brand">
+          <div class="brand-icon">3D</div>
+          <div>
+            <div class="brand-text-title">Archivos 3D Médicos</div>
+            <div class="brand-text-sub">
+              Plataforma para distribución de piezas médicas en 3D
             </div>
-
-            <button class="nav-toggle" id="navToggle" aria-label="Abrir menú">
-                ☰
-            </button>
-
-            <nav class="main-nav" id="mainNav">
-                <a href="#inicio">Inicio</a>
-                <a href="#catalogo">Catálogo</a>
-                <a href="#metodologia">Metodología</a>
-                <a href="#resultados">Resultados</a>
-                <a href="#validacion">Validación técnica</a>
-                <a href="#acerca">Acerca del proyecto</a>
-                <a href="#contacto">Contacto</a>
-            </nav>
+          </div>
         </div>
-    </header>
 
-    <main>
-        <!-- LANDING / INICIO -->
-        <section id="inicio" class="hero">
-            <div class="container hero-grid">
-                <div class="hero-text">
-                    <h1>Plataforma digital de acceso libre para archivos 3D de piezas médicas</h1>
-                    <p class="hero-subtitle">
-                        Proyecto de tesis de Ingeniería Biomédica:<br>
-                        <strong>“Plataforma digital de acceso libre para la distribución de archivos 3D de piezas médicas para su fabricación mediante Control Numérico Computacional”.</strong>
-                    </p>
+        <div class="nav">
+          <button class="active" data-view="view-repo"><span class="dot"></span>Repositorio</button>
+          <button data-view="view-detalle"><span class="dot"></span>Detalle de pieza</button>
+          <button data-view="view-historial"><span class="dot"></span>Historial</button>
+          <button data-view="view-preferencias"><span class="dot"></span>Preferencias</button>
+          <button data-view="view-registro"><span class="dot"></span>Registro</button>
+        </div>
+      </div>
 
-                    <div class="hero-actions">
-                        <a href="#catalogo" class="btn btn-primary">Ver catálogo de piezas</a>
-                        <a href="#metodologia" class="btn btn-outline">Ver metodología del prototipo</a>
-                    </div>
+      <!-- Buscador -->
+      <div class="search-row">
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input id="searchInput" type="text" placeholder="Buscar piezas médicas..." />
+        </div>
+        <div class="user-pill">
+          <div class="user-pill-avatar">EA</div>
+          <span>Sesión de demostración · Tesis</span>
+        </div>
+      </div>
 
-                    <div class="hero-tags">
-                        <span class="tag">Acceso libre</span>
-                        <span class="tag">Fabricación CNC</span>
-                        <span class="tag">Ingeniería Biomédica</span>
-                    </div>
-                </div>
-
-                <div class="hero-card">
-                    <h2>Objetivo general</h2>
-                    <p>
-                        Desarrollar una plataforma digital de acceso libre que centralice, organice y distribuya
-                        archivos 3D de piezas médicas, optimizados para su fabricación mediante Control Numérico
-                        Computacional, contribuyendo a mejorar la disponibilidad, trazabilidad y reproducibilidad
-                        de estos componentes en entornos biomédicos.
-                    </p>
-
-                    <h3>Alcance</h3>
-                    <ul>
-                        <li>Repositorio estructurado de archivos 3D.</li>
-                        <li>Metadatos técnicos y parámetros de mecanizado CNC.</li>
-                        <li>Lineamientos de seguridad y validación biomédica.</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-        <!-- CATÁLOGO -->
-        <section id="catalogo" class="section">
-            <div class="container">
-                <header class="section-header">
-                    <h2>Catálogo de archivos 3D</h2>
-                    <p>Explora las piezas médicas disponibles, filtra por categoría, material y compatibilidad, y descarga los modelos 3D para su fabricación mediante CNC.</p>
-                </header>
-
-                <div class="catalog-controls">
-                    <div class="field">
-                        <label for="searchInput">Buscador</label>
-                        <input type="text" id="searchInput" placeholder="Buscar por nombre, tipo de pieza, uso..." />
-                    </div>
-
-                    <div class="field">
-                        <label for="filterCategoria">Categoría</label>
-                        <select id="filterCategoria">
-                            <option value="">Todas</option>
-                        </select>
-                    </div>
-
-                    <div class="field">
-                        <label for="filterTipo">Tipo de pieza</label>
-                        <select id="filterTipo">
-                            <option value="">Todas</option>
-                        </select>
-                    </div>
-
-                    <div class="field">
-                        <label for="filterMaterial">Material recomendado</label>
-                        <select id="filterMaterial">
-                            <option value="">Todos</option>
-                        </select>
-                    </div>
-
-                    <div class="field">
-                        <label for="filterCompatibilidad">Compatibilidad</label>
-                        <select id="filterCompatibilidad">
-                            <option value="">Todas</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div id="catalogoGrid" class="catalog-grid">
-                    <!-- Las tarjetas se generan dinámicamente con script.js -->
-                </div>
-
-                <p class="small muted">
-                    *El contador de descargas es una simulación local para fines de evaluación del prototipo.
-                </p>
-            </div>
-        </section>
-
-        <!-- METODOLOGÍA DEL PROTOTIPO -->
-        <section id="metodologia" class="section section-alt">
-            <div class="container">
-                <header class="section-header">
-                    <h2>Metodología del prototipo</h2>
-                    <p>Descripción resumida del proceso metodológico seguido para el desarrollo de la plataforma y del prototipo de distribución de archivos 3D.</p>
-                </header>
-
-                <div class="two-column">
-                    <article class="card">
-                        <h3>Metodología</h3>
-                        <p>
-                            La metodología empleada se enmarca en un enfoque de investigación aplicada, orientada al
-                            diseño y validación de un prototipo funcional. El proceso se estructuró en etapas:
-                            revisión bibliográfica, análisis de requerimientos, diseño de la arquitectura del sistema,
-                            desarrollo de la plataforma, integración del catálogo de piezas médicas y evaluación técnica.
-                        </p>
-                        <p>
-                            En la fase de revisión bibliográfica se identificaron las principales tendencias en
-                            fabricación digital de dispositivos médicos, normativa aplicable y experiencias previas
-                            en repositorios abiertos de modelos 3D. A partir de ello se definieron los criterios de
-                            diseño enfocados en la seguridad del paciente, la trazabilidad de los modelos y la
-                            reproducibilidad del proceso de fabricación CNC.
-                        </p>
-                        <p>
-                            El desarrollo del prototipo se llevó a cabo mediante iteraciones cortas, implementando
-                            versiones parciales de la plataforma y realizando ajustes en función de pruebas internas
-                            y retroalimentación de especialistas en ingeniería biomédica.
-                        </p>
-                    </article>
-
-                    <article class="card">
-                        <h3>Prototipo</h3>
-                        <p>
-                            El prototipo consiste en una plataforma web estática, implementada con tecnologías
-                            HTML, CSS y JavaScript, alojada en GitHub Pages. El sistema permite consultar un catálogo
-                            de piezas médicas, visualizar información técnica estructurada y descargar los archivos 3D
-                            en formatos compatibles con flujos de trabajo de diseño asistido por computadora (CAD/CAM)
-                            y fabricación CNC.
-                        </p>
-                        <p>
-                            Cada pieza del catálogo incluye una ficha técnica con parámetros relevantes para el
-                            mecanizado, materiales recomendados y advertencias de uso. La plataforma incorpora
-                            además un simulador de contador de descargas, filtros avanzados y una plantilla
-                            estandarizada para facilitar la incorporación de nuevas piezas.
-                        </p>
-                        <p>
-                            La arquitectura propuesta favorece la escalabilidad, ya que permite ampliar el catálogo
-                            sin requerir modificaciones en el backend, manteniendo al mismo tiempo una organización
-                            clara de los archivos y metadatos asociados.
-                        </p>
-                    </article>
-                </div>
-            </div>
-        </section>
-
-        <!-- RESULTADOS OBTENIDOS -->
-        <section id="resultados" class="section">
-            <div class="container">
-                <header class="section-header">
-                    <h2>Resultados obtenidos</h2>
-                    <p>Resumen de los principales hallazgos derivados del desarrollo y evaluación del prototipo.</p>
-                </header>
-
-                <div class="results-grid">
-                    <article class="card">
-                        <h3>Análisis de resultados</h3>
-                        <p>
-                            La implementación del prototipo permitió demostrar la viabilidad técnica de una
-                            plataforma digital de acceso libre para la distribución de archivos 3D de piezas médicas.
-                            El catálogo desarrollado integra modelos con diferentes niveles de complejidad geométrica,
-                            demostrando la compatibilidad con flujos de trabajo de mecanizado CNC en tres ejes.
-                        </p>
-                        <p>
-                            Las pruebas de uso con usuarios tipo (estudiantes y profesionales de ingeniería biomédica)
-                            evidenciaron que la estructura de navegación, los filtros y el buscador interno facilitan la
-                            localización de piezas específicas, reduciendo el tiempo de acceso a la información técnica.
-                        </p>
-                    </article>
-
-                    <article class="card">
-                        <h3>Conclusiones</h3>
-                        <p>
-                            La plataforma desarrollada constituye una herramienta de apoyo para la comunidad biomédica,
-                            al ofrecer un repositorio organizado de modelos 3D listos para su fabricación mediante CNC.
-                            El uso de tecnologías web abiertas y de un esquema de datos basado en JSON facilita la
-                            interoperabilidad con otros sistemas y la futura integración de mecanismos de validación
-                            más avanzados.
-                        </p>
-                        <p>
-                            Se concluye que un enfoque de acceso libre, acompañado de documentación técnica clara y
-                            advertencias de seguridad, puede contribuir a una adopción más responsable de la fabricación
-                            digital de piezas médicas en entornos académicos y de investigación.
-                        </p>
-                    </article>
-
-                    <article class="card">
-                        <h3>Recomendaciones y trabajos futuros</h3>
-                        <p>
-                            Como trabajo futuro se propone ampliar el catálogo de piezas incorporando modelos
-                            diseñados en colaboración con especialistas clínicos, así como implementar mecanismos
-                            formales de validación experimental y clínica de cada componente.
-                        </p>
-                        <p>
-                            Se recomienda integrar módulos adicionales para gestionar versiones de archivos,
-                            registrar evidencia de validación (ensayos mecánicos, pruebas de biocompatibilidad) y
-                            vincular la plataforma con repositorios institucionales y normativas vigentes.
-                        </p>
-                        <p>
-                            Finalmente, se sugiere explorar la incorporación de herramientas de visualización 3D
-                            interactiva en el navegador y la generación automatizada de documentación técnica para
-                            cada pieza a partir de los metadatos almacenados.
-                        </p>
-                    </article>
-                </div>
-            </div>
-        </section>
-
-        <!-- VALIDACIÓN TÉCNICA -->
-        <section id="validacion" class="section section-alt">
-            <div class="container">
-                <header class="section-header">
-                    <h2>Validación técnica</h2>
-                    <p>Descripción de las pruebas técnicas realizadas para comprobar la viabilidad de los modelos 3D y su fabricación mediante CNC.</p>
-                </header>
-
-                <article class="card">
-                    <h3>Alcance de la validación</h3>
-                    <p>
-                        La validación técnica se centró en verificar la integridad geométrica de los modelos 3D,
-                        su compatibilidad con software de CAM y la fabricación de prototipos físicos mediante
-                        fresado CNC. Se realizaron pruebas de importación de los archivos STL a diferentes
-                        entornos de programación de trayectoria, evaluando la presencia de errores de malla,
-                        superficies abiertas y elementos no manufacturables.
-                    </p>
-                    <p>
-                        Para un subconjunto de piezas se generaron trayectorias de herramienta en tres ejes,
-                        confirmando que las estrategias de desbaste y acabado eran factibles con herramientas
-                        estándar y parámetros de corte dentro de rangos aceptables para los materiales recomendados.
-                    </p>
-
-                    <h3>Limitaciones</h3>
-                    <ul>
-                        <li>La validación se realizó sobre un número limitado de piezas y escenarios de fabricación.</li>
-                        <li>No se incluyeron pruebas clínicas ni de biocompatibilidad de materiales.</li>
-                        <li>El contador de descargas y el registro de uso son simulados y no constituyen evidencia de adopción clínica.</li>
-                    </ul>
-                </article>
-            </div>
-        </section>
-
-        <!-- ACERCA DEL PROYECTO -->
-        <section id="acerca" class="section">
-            <div class="container">
-                <header class="section-header">
-                    <h2>Acerca del proyecto</h2>
-                    <p>Resumen estructurado de los principales apartados de la tesis.</p>
-                </header>
-
-                <div class="two-column">
-                    <article class="card">
-                        <h3>Antecedentes</h3>
-                        <p>
-                            En los últimos años, la fabricación digital ha cobrado relevancia en el desarrollo de
-                            dispositivos médicos personalizados y de bajo volumen de producción. Tecnologías como
-                            la impresión 3D y el mecanizado CNC han permitido reducir tiempos de fabricación y costos,
-                            favoreciendo la creación de guías quirúrgicas, adaptadores y componentes auxiliares
-                            para procedimientos clínicos.
-                        </p>
-                        <p>
-                            Sin embargo, la disponibilidad de repositorios estructurados de modelos 3D específicamente
-                            orientados a aplicaciones biomédicas sigue siendo limitada, y en muchos casos los modelos
-                            no cuentan con información técnica suficiente para garantizar un uso seguro y reproducible.
-                        </p>
-
-                        <h3>Planteamiento del problema</h3>
-                        <p>
-                            La ausencia de una plataforma de acceso libre que integre archivos 3D de piezas médicas
-                            con información técnica estandarizada dificulta la reutilización de diseños, la
-                            colaboración entre instituciones y la trazabilidad de las modificaciones realizadas
-                            sobre un modelo. Esto genera riesgos asociados a la fabricación de componentes sin
-                            validación suficiente y limita el aprovechamiento del potencial de las tecnologías CNC
-                            en el ámbito biomédico.
-                        </p>
-
-                        <h3>Justificación</h3>
-                        <p>
-                            Contar con una plataforma digital que concentre archivos 3D validados, acompañados de
-                            parámetros de fabricación y advertencias de seguridad, puede apoyar procesos de diseño,
-                            docencia e investigación en ingeniería biomédica. Además, promueve el acceso abierto al
-                            conocimiento, favoreciendo la estandarización y comparación de resultados entre distintos
-                            grupos de trabajo.
-                        </p>
-                    </article>
-
-                    <article class="card">
-                        <h3>Objetivo general</h3>
-                        <p>
-                            Diseñar e implementar una plataforma digital de acceso libre para la distribución de
-                            archivos 3D de piezas médicas, estructurada para su fabricación mediante Control
-                            Numérico Computacional y orientada a mejorar la disponibilidad y trazabilidad de estos
-                            modelos en contextos académicos y de investigación biomédica.
-                        </p>
-
-                        <h3>Objetivos específicos</h3>
-                        <ul>
-                            <li>Analizar requerimientos técnicos y normativos asociados a la fabricación de piezas médicas mediante CNC.</li>
-                            <li>Definir una estructura de datos para describir archivos 3D, parámetros de mecanizado y advertencias de seguridad.</li>
-                            <li>Desarrollar una plataforma web estática que permita consultar, filtrar y descargar modelos 3D.</li>
-                            <li>Implementar un prototipo de catálogo con piezas representativas y evaluar su funcionamiento técnico.</li>
-                            <li>Documentar el proceso de diseño y los resultados obtenidos, proponiendo líneas de trabajo futuro.</li>
-                        </ul>
-
-                        <h3>Trabajos futuros</h3>
-                        <p>
-                            Se propone incorporar módulos de autenticación para el control de versiones y la
-                            publicación de nuevos modelos por parte de colaboradores, así como integrar flujos de
-                            aprobación que incluyan revisión por comités éticos y especialistas clínicos. Otra línea
-                            de trabajo es la integración con sistemas de gestión hospitalaria y registros clínicos
-                            electrónicos, permitiendo vincular modelos a casos de uso específicos.
-                        </p>
-                    </article>
-                </div>
-            </div>
-        </section>
-
-        <!-- CONTACTO -->
-        <section id="contacto" class="section section-alt">
-            <div class="container">
-                <header class="section-header">
-                    <h2>Contacto del autor</h2>
-                    <p>Información de contacto y enlace al repositorio del proyecto.</p>
-                </header>
-
-                <div class="contact-grid">
-                    <div class="card">
-                        <h3>Autor</h3>
-                        <p><strong>Nombre del autor:</strong> [Tu nombre completo]</p>
-                        <p><strong>Programa:</strong> Ingeniería Biomédica</p>
-                        <p><strong>Correo electrónico:</strong> <a href="mailto:tu.correo@ejemplo.com">tu.correo@ejemplo.com</a></p>
-                    </div>
-                    <div class="card">
-                        <h3>Repositorio GitHub</h3>
-                        <p>Puedes consultar el código fuente y los archivos del proyecto en el siguiente enlace:</p>
-                        <p>
-                            <a class="btn btn-primary" href="https://github.com/tu-usuario/tu-repo-plataforma-3d" target="_blank" rel="noopener">
-                                Ver repositorio en GitHub
-                            </a>
-                        </p>
-                        <p class="small muted">
-                            Actualiza este enlace con la URL real de tu repositorio.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer class="site-footer">
-        <div class="container footer-grid">
+      <!-- Layout principal -->
+      <div class="layout">
+        <!-- Panel repositorio -->
+        <div class="panel">
+          <div class="panel-header">
             <div>
-                <p class="footer-title">Plataforma de archivos 3D de piezas médicas</p>
-                <p class="small">
-                    Proyecto de tesis de Ingeniería Biomédica. Uso académico y de investigación. No sustituye la
-                    validación clínica ni regulatoria de dispositivos médicos.
-                </p>
+              <div class="panel-title">Piezas disponibles</div>
+              <div class="panel-sub">
+                Catálogo de ejemplos para la plataforma digital de tu tesis.
+              </div>
             </div>
-            <div class="footer-col">
-                <p class="small"><strong>Institución:</strong> [Nombre de la institución]</p>
-                <p class="small"><strong>Facultad:</strong> [Nombre de la facultad]</p>
-                <p class="small"><strong>Año:</strong> [Año]</p>
-            </div>
-        </div>
-    </footer>
+            <span class="panel-badge" id="piecesCount">0 piezas</span>
+          </div>
 
-    <script src="script.js"></script>
+          <div class="cards" id="cardsContainer">
+            <!-- Tarjetas generadas por JS -->
+          </div>
+        </div>
+
+        <!-- Panel derecho: vistas -->
+        <div class="panel">
+          <!-- Vista detalle -->
+          <div class="view active" id="view-detalle">
+            <div class="panel-header">
+              <div>
+                <div class="panel-title" id="detailTitle">Conector</div>
+                <div class="panel-sub" id="detailSubtitle">
+                  Material ABS · Fabricación mediante Control Numérico Computacional
+                </div>
+              </div>
+              <span class="badge-soft">Vista de detalle</span>
+            </div>
+
+            <div class="detail-layout">
+              <div class="detail-main">
+                <div class="detail-main-item large">
+                  <div class="detail-shape"></div>
+                </div>
+                <div class="detail-main-item">
+                  <div class="detail-sketch">Vista isométrica simulada</div>
+                </div>
+                <div class="detail-main-item">
+                  <div class="detail-sketch">Plano con cotas aproximadas</div>
+                </div>
+              </div>
+              <div class="detail-side">
+                <div class="detail-side-title" id="detailNameSide">Conector</div>
+                <div class="detail-side-meta" id="detailMetaSide">
+                  Material: ABS · Proceso: Control Numérico Computacional
+                </div>
+
+                <dl>
+                  <dt>Dimensiones de referencia</dt>
+                  <dd id="detailDims">50 × 34 × 24 mm</dd>
+                  <dt>Equipo médico</dt>
+                  <dd id="detailEquipo">Bomba de infusión</dd>
+                  <dt>Uso principal</dt>
+                  <dd id="detailUso">
+                    Unión segura entre circuito de fluido y módulo de bombeo.
+                  </dd>
+                </dl>
+
+                <div class="btn-group">
+                  <button class="btn btn-primary">Descargar STL</button>
+                  <button class="btn btn-blue">Descargar STEP</button>
+                  <button class="btn btn-amber">Descargar OBJ</button>
+                  <button class="btn btn-disabled">Manual PDF (en preparación)</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Vista preferencias -->
+          <div class="view" id="view-preferencias">
+            <div class="panel-header">
+              <div>
+                <div class="panel-title">Preferencias de la plataforma</div>
+                <div class="panel-sub">Ajustes simulados para usuarios técnicos.</div>
+              </div>
+              <span class="badge-soft">Configuración</span>
+            </div>
+
+            <div class="prefs-grid">
+              <div class="detail-side">
+                <div class="section-title">Idioma y formatos</div>
+                <div class="section-text">
+                  Estos parámetros permiten personalizar cómo se descargan y visualizan
+                  los archivos de piezas médicas dentro de la plataforma.
+                </div>
+
+                <div class="form-group" style="margin-top:.55rem;">
+                  <label class="form-label">Idioma de la interfaz</label>
+                  <select class="form-input" style="border-radius:12px;">
+                    <option>Español</option>
+                    <option>Inglés</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Formato de descarga preferido</label>
+                  <div class="chip-group">
+                    <div class="chip active">STL</div>
+                    <div class="chip">STEP</div>
+                    <div class="chip">OBJ</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="detail-side">
+                <div class="section-title">Notificaciones y privacidad</div>
+
+                <div class="toggle-row">
+                  <div class="toggle-label">
+                    Notificaciones por correo cuando se publique una nueva pieza.
+                  </div>
+                  <div class="switch on">
+                    <div class="switch-thumb"></div>
+                  </div>
+                </div>
+
+                <div class="toggle-row">
+                  <div class="toggle-label">
+                    Alertas dentro de la plataforma ante revisiones de seguridad.
+                  </div>
+                  <div class="switch on">
+                    <div class="switch-thumb"></div>
+                  </div>
+                </div>
+
+                <div class="toggle-row">
+                  <div class="toggle-label">
+                    Compartir datos de perfil con otras instituciones participantes.
+                  </div>
+                  <div class="switch">
+                    <div class="switch-thumb"></div>
+                  </div>
+                </div>
+
+                <button class="btn btn-blue" style="margin-top:.65rem;width:100%;">
+                  Guardar cambios (demostración)
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Vista historial -->
+          <div class="view" id="view-historial">
+            <div class="panel-header">
+              <div>
+                <div class="panel-title">Historial de descargas</div>
+                <div class="panel-sub">
+                  Ejemplo de trazabilidad de archivos descargados desde la plataforma.
+                </div>
+              </div>
+              <button class="btn-outline">Borrar todo</button>
+            </div>
+
+            <div class="section-title">Hoy</div>
+            <div class="history-list">
+              <div class="history-item">
+                <div class="history-badge badge-stl">STL</div>
+                <div>
+                  <div>Conector_v1.stl</div>
+                  <div class="history-meta">
+                    Plataforma Archivos 3D Médicos · Control Numérico Computacional
+                  </div>
+                </div>
+                <div class="history-date">03/10/2025 · 14:32</div>
+              </div>
+            </div>
+
+            <div class="section-title" style="margin-top:.6rem;">Ayer</div>
+            <div class="history-list">
+              <div class="history-item">
+                <div class="history-badge badge-step">STEP</div>
+                <div>
+                  <div>Adaptador.step</div>
+                  <div class="history-meta">
+                    Plataforma Archivos 3D Médicos
+                  </div>
+                </div>
+                <div class="history-date">02/10/2025 · 09:25</div>
+              </div>
+              <div class="history-item">
+                <div class="history-badge badge-obj">OBJ</div>
+                <div>
+                  <div>Conector_v1.obj</div>
+                  <div class="history-meta">
+                    Plataforma Archivos 3D Médicos
+                  </div>
+                </div>
+                <div class="history-date">02/10/2025 · 07:46</div>
+              </div>
+            </div>
+
+            <div class="section-title" style="margin-top:.6rem;">Semana pasada</div>
+            <div class="history-list">
+              <div class="history-item">
+                <div class="history-badge badge-pdf">PDF</div>
+                <div>
+                  <div>Manual_Brida.pdf</div>
+                  <div class="history-meta">
+                    Plataforma Archivos 3D Médicos
+                  </div>
+                </div>
+                <div class="history-date">27/09/2025 · 11:18</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Vista registro -->
+          <div class="view" id="view-registro">
+            <div class="panel-header">
+              <div>
+                <div class="panel-title">Registro en la plataforma</div>
+                <div class="panel-sub">
+                  Maqueta de la interfaz para técnicos biomédicos.
+                </div>
+              </div>
+            </div>
+
+            <div class="form-card">
+              <div class="form-title">Crear cuenta en Archivos 3D Médicos</div>
+
+              <div class="form-group">
+                <label class="form-label">Nombre completo</label>
+                <input class="form-input" type="text" placeholder="Nombre y apellidos" />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Correo institucional</label>
+                <input class="form-input" type="email" placeholder="ejemplo@hospital.mx" />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Contraseña</label>
+                <input class="form-input" type="password" />
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Confirmar contraseña</label>
+                <input class="form-input" type="password" />
+              </div>
+
+              <button class="btn btn-blue" style="width:100%;margin-top:.35rem;">
+                Crear cuenta (demostración)
+              </button>
+
+              <div class="form-footer">
+                Al registrarte aceptas que este prototipo se utiliza solo con fines académicos
+                dentro del proyecto de tesis.
+              </div>
+            </div>
+          </div>
+
+          <!-- Vista repositorio “vacía” (para cuando la selecciones) -->
+          <div class="view" id="view-repo">
+            <div class="panel-header">
+              <div>
+                <div class="panel-title">Repositorio de archivos 3D</div>
+                <div class="panel-sub">
+                  Selecciona una pieza del panel izquierdo para ver su información detallada,
+                  formatos disponibles y dimensiones de referencia.
+                </div>
+              </div>
+              <span class="badge-soft">Vista general</span>
+            </div>
+
+            <div class="section-text">
+              Esta vista resume el funcionamiento de la plataforma: un catálogo de piezas
+              médicas en 3D clasificadas por equipo, material y proceso de fabricación mediante
+              Control Numérico Computacional. Las instituciones de salud pueden descargar
+              los modelos aprobados e integrarlos en su propio flujo de manufactura local.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer">
+        Plataforma digital diseñada como parte de la tesis de Ingeniería Biomédica sobre
+        distribución de archivos 3D de piezas médicas para su fabricación mediante Control
+        Numérico Computacional.
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Datos de ejemplo para las piezas
+    const piezas = [
+      {
+        id: "conector",
+        nombre: "Conector",
+        material: "ABS",
+        proceso: "Control Numérico Computacional",
+        estado: "Aprobada",
+        dims: "50 × 34 × 24 mm",
+        equipo: "Bomba de infusión",
+        uso: "Unión entre línea de fluido y módulo de bombeo."
+      },
+      {
+        id: "adaptador",
+        nombre: "Adaptador",
+        material: "Nylon",
+        proceso: "Control Numérico Computacional",
+        estado: "Aprobada",
+        dims: "42 × 30 × 22 mm",
+        equipo: "Sistema de oxigenoterapia",
+        uso: "Adaptación entre manguera de oxígeno y puerto del equipo."
+      },
+      {
+        id: "brida",
+        nombre: "Brida",
+        material: "ABS",
+        proceso: "Control Numérico Computacional",
+        estado: "Aprobada",
+        dims: "Ø 60 mm · espesor 8 mm",
+        equipo: "Soporte de monitor",
+        uso: "Fijación mecánica del brazo articulado al chasis del monitor."
+      },
+      {
+        id: "soporte",
+        nombre: "Soporte de sensor",
+        material: "PLA reforzado",
+        proceso: "Control Numérico Computacional",
+        estado: "En validación",
+        dims: "70 × 28 × 18 mm",
+        equipo: "Monitor de signos vitales",
+        uso: "Sujeción del sensor al riel lateral de cama hospitalaria."
+      }
+    ];
+
+    const cardsContainer = document.getElementById("cardsContainer");
+    const piecesCount = document.getElementById("piecesCount");
+    const searchInput = document.getElementById("searchInput");
+
+    const detailTitle = document.getElementById("detailTitle");
+    const detailSubtitle = document.getElementById("detailSubtitle");
+    const detailNameSide = document.getElementById("detailNameSide");
+    const detailMetaSide = document.getElementById("detailMetaSide");
+    const detailDims = document.getElementById("detailDims");
+    const detailEquipo = document.getElementById("detailEquipo");
+    const detailUso = document.getElementById("detailUso");
+
+    function renderCards(filter = "") {
+      cardsContainer.innerHTML = "";
+      const term = filter.trim().toLowerCase();
+
+      const filtered = piezas.filter(p =>
+        p.nombre.toLowerCase().includes(term) ||
+        p.material.toLowerCase().includes(term) ||
+        p.equipo.toLowerCase().includes(term)
+      );
+
+      filtered.forEach(pieza => {
+        const card = document.createElement("article");
+        card.className = "card";
+        card.dataset.id = pieza.id;
+
+        card.innerHTML = `
+          <div class="card-thumb">
+            <div class="card-thumb-shape"></div>
+          </div>
+          <div class="card-name">${pieza.nombre}</div>
+          <div class="card-meta">${pieza.material} · ${pieza.proceso}</div>
+          <div class="status-pill">${pieza.estado}</div>
+        `;
+
+        card.addEventListener("click", () => loadDetail(pieza.id));
+        cardsContainer.appendChild(card);
+      });
+
+      piecesCount.textContent = `${filtered.length} pieza${filtered.length !== 1 ? "s" : ""}`;
+    }
+
+    function loadDetail(id) {
+      const pieza = piezas.find(p => p.id === id);
+      if (!pieza) return;
+
+      detailTitle.textContent = pieza.nombre;
+      detailNameSide.textContent = pieza.nombre;
+      detailSubtitle.textContent = `Material ${pieza.material} · Fabricación mediante ${pieza.proceso}`;
+      detailMetaSide.textContent = `Material: ${pieza.material} · Proceso: ${pieza.proceso}`;
+      detailDims.textContent = pieza.dims;
+      detailEquipo.textContent = pieza.equipo;
+      detailUso.textContent = pieza.uso;
+
+      // Cambiar vista activa a detalle si el usuario está en otra
+      setActiveView("view-detalle");
+    }
+
+    // Buscador
+    searchInput.addEventListener("input", (e) => {
+      renderCards(e.target.value);
+    });
+
+    // Navegación de vistas
+    const navButtons = document.querySelectorAll(".nav button");
+    const views = document.querySelectorAll(".view");
+
+    function setActiveView(id) {
+      views.forEach(v => v.classList.toggle("active", v.id === id));
+      navButtons.forEach(btn =>
+        btn.classList.toggle("active", btn.dataset.view === id)
+      );
+    }
+
+    navButtons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        const viewId = btn.dataset.view;
+        setActiveView(viewId);
+      });
+    });
+
+    // Inicializar
+    renderCards();
+    loadDetail("conector");
+  </script>
 </body>
 </html>
