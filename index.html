@@ -1,1 +1,277 @@
-<hi>Github pages</hi>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Plataforma digital de acceso libre – Tesis</title>
+
+  <style>
+    :root {
+      --color-primario: #1b4965;
+      --color-secundario: #edf2f4;
+      --color-acento: #ffb703;
+      --color-texto: #222;
+      --color-blanco: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #f5f5f5;
+      color: var(--color-texto);
+      line-height: 1.6;
+    }
+
+    header {
+      background: linear-gradient(135deg, var(--color-primario), #13293d);
+      color: var(--color-blanco);
+      padding: 2.5rem 1.5rem 3.5rem;
+      text-align: center;
+    }
+
+    header .logo {
+      font-size: 0.9rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      opacity: 0.85;
+      margin-bottom: 0.75rem;
+    }
+
+    header h1 {
+      font-size: clamp(1.8rem, 3vw, 2.4rem);
+      max-width: 780px;
+      margin: 0 auto 0.75rem;
+      font-weight: 700;
+    }
+
+    header h2 {
+      font-size: 1rem;
+      font-weight: 400;
+      max-width: 620px;
+      margin: 0 auto;
+      opacity: 0.95;
+    }
+
+    header p.meta {
+      margin-top: 1.5rem;
+      font-size: 0.95rem;
+      opacity: 0.9;
+    }
+
+    main {
+      max-width: 1080px;
+      margin: -2rem auto 3rem;
+      padding: 0 1rem 2rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .card {
+      background: var(--color-blanco);
+      border-radius: 0.9rem;
+      padding: 1.5rem 1.6rem;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.06);
+      border: 1px solid rgba(0, 0, 0, 0.03);
+    }
+
+    .card h3 {
+      font-size: 1.1rem;
+      margin-bottom: 0.75rem;
+      color: var(--color-primario);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      background: rgba(27, 73, 101, 0.06);
+      color: var(--color-primario);
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      margin-bottom: 0.6rem;
+    }
+
+    .card p {
+      font-size: 0.92rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .card ul {
+      padding-left: 1.1rem;
+      font-size: 0.9rem;
+      margin-top: 0.3rem;
+    }
+
+    .card ul li {
+      margin-bottom: 0.25rem;
+    }
+
+    section {
+      margin-top: 2rem;
+    }
+
+    section h2 {
+      font-size: 1.3rem;
+      margin-bottom: 0.75rem;
+      color: var(--color-primario);
+    }
+
+    .objetivos-lista li {
+      margin-bottom: 0.35rem;
+    }
+
+    .pill {
+      display: inline-block;
+      padding: 0.18rem 0.6rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      background: var(--color-secundario);
+      margin-right: 0.25rem;
+      margin-bottom: 0.25rem;
+    }
+
+    footer {
+      text-align: center;
+      font-size: 0.8rem;
+      padding: 1.5rem 1rem 2rem;
+      color: #555;
+    }
+
+    a.btn {
+      display: inline-block;
+      margin-top: 0.75rem;
+      background: var(--color-acento);
+      color: #111;
+      text-decoration: none;
+      padding: 0.45rem 0.9rem;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    @media (max-width: 600px) {
+      header {
+        padding-inline: 1rem;
+      }
+
+      .card {
+        padding-inline: 1.25rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">Universidad La Salle Victoria</div>
+    <h1>
+      Plataforma digital de acceso libre para la distribución de archivos 3D de piezas médicas para su fabricación mediante Control Numérico Computacional
+    </h1>
+    <h2>
+      Proyecto de tesis de Ingeniería Biomédica orientado a la fabricación local de repuestos para equipos médicos.
+    </h2>
+    <p class="meta">
+      Autor: Edgar Adriel Ramírez Aguilar · Ciudad Victoria, Tamaulipas · 2025
+    </p>
+  </header>
+
+  <main>
+    <!-- Tarjetas principales como en las secciones de tu tesis -->
+    <section class="grid">
+      <article class="card">
+        <span class="badge">Antecedentes</span>
+        <h3>Contexto del problema</h3>
+        <p>
+          Los hospitales enfrentan retrasos y altos costos al adquirir repuestos para equipos médicos,
+          especialmente cuando dependen de proveedores externos e importaciones.
+        </p>
+        <p>
+          La fabricación digital y el Control Numérico Computacional abren la posibilidad de producir
+          localmente piezas críticas a partir de modelos 3D validados.
+        </p>
+      </article>
+
+      <article class="card">
+        <span class="badge">Planteamiento</span>
+        <h3>¿Qué busca resolver la plataforma?</h3>
+        <p>
+          Crear un repositorio digital de acceso libre donde técnicos biomédicos puedan
+          consultar, descargar y fabricar piezas médicas estandarizadas, reduciendo
+          tiempos de espera y costos de mantenimiento.
+        </p>
+        <ul>
+          <li>Acceso rápido a archivos 3D.</li>
+          <li>Clasificación clara por equipo y tipo de pieza.</li>
+          <li>Modelos pensados para manufactura local.</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <span class="badge">Objetivo general</span>
+        <h3>Meta del proyecto</h3>
+        <p>
+          Desarrollar una plataforma digital de acceso libre para la distribución de archivos
+          3D de piezas médicas, que facilite su fabricación local mediante Control Numérico
+          Computacional y optimice el mantenimiento de equipos médicos.
+        </p>
+        <a href="#objetivos" class="btn">Ver objetivos específicos</a>
+      </article>
+    </section>
+
+    <!-- Objetivos y secciones tipo índice de capítulo -->
+    <section id="objetivos">
+      <h2>Objetivos específicos</h2>
+      <div class="card">
+        <ul class="objetivos-lista">
+          <li>Diseñar una interfaz web intuitiva para consultar y descargar archivos 3D.</li>
+          <li>Implementar un sistema de clasificación por equipo, tipo de pieza y material.</li>
+          <li>Probar la viabilidad técnica y económica de la fabricación local frente al modelo tradicional.</li>
+          <li>Realizar pruebas piloto en instituciones de salud de Ciudad Victoria.</li>
+          <li>Proponer estrategias para la adopción y expansión de la plataforma en otros hospitales.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <h2>Estructura del sitio (basada en tu tesis)</h2>
+      <div class="card">
+        <p>Este sitio puede crecer siguiendo la misma lógica de capítulos de tu tesis:</p>
+        <div>
+          <span class="pill">Antecedentes</span>
+          <span class="pill">Planteamiento del problema</span>
+          <span class="pill">Justificación</span>
+          <span class="pill">Objetivos y preguntas</span>
+          <span class="pill">Metodología</span>
+          <span class="pill">Prototipo</span>
+          <span class="pill">Resultados</span>
+          <span class="pill">Conclusiones</span>
+        </div>
+        <p style="margin-top:0.75rem;">
+          Puedes ir agregando nuevas secciones como páginas o bloques adicionales,
+          por ejemplo un apartado con capturas del prototipo en GitHub, otro con
+          instrucciones de uso para los hospitales, y uno más con descargas de
+          documentos relacionados.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Sitio desarrollado como apoyo a la tesis de Ingeniería Biomédica sobre plataformas
+    digitales y fabricación local de repuestos médicos.
+  </footer>
+</body>
+</html>
+
