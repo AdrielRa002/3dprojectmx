@@ -1,0 +1,81 @@
+[
+  {
+    "id": "guia-perforacion-tibia",
+    "nombre": "Guía de perforación para fijación tibial",
+    "categoria": "Equipos médicos",
+    "tipo_pieza": "Guía quirúrgica",
+    "compatibilidad": "Fijación tibial con tornillos ortopédicos 4.5 mm",
+    "material_recomendado": "Nylon",
+    "formato": "STL",
+    "descripcion_corta": "Guía quirúrgica para orientar la perforación en procedimientos de fijación tibial.",
+    "descripcion_larga": "Modelo 3D de guía quirúrgica diseñada para asistir la perforación controlada en la región proximal de la tibia durante procedimientos de fijación con tornillos ortopédicos. El diseño considera superficies de apoyo anatómico y canales de perforación con diámetros compatibles con brocas estándar, permitiendo reproducibilidad geométrica y reducción del error en el ángulo de perforación.",
+    "imagen_principal": "img/guia-perforacion-tibia-1.png",
+    "galeria": [
+      "img/guia-perforacion-tibia-1.png"
+    ],
+    "archivo_modelo": "modelos/guia-perforacion-tibia.stl",
+    "indicaciones_cnc": [
+      "Importar el modelo STL al software CAM y orientar la pieza con la superficie de apoyo en contacto con la mesa de trabajo.",
+      "Utilizar fresado en 3 ejes con fresa de extremo de diámetro 3 mm para el mecanizado de canales.",
+      "Verificar la ausencia de colisiones y ajustar la altura de seguridad en zonas cercanas al borde de la pieza."
+    ],
+    "procesos_cnc": [
+      "Fresado 3 ejes"
+    ],
+    "advertencias": "No utilizar la guía en pacientes sin validación experimental y aprobación de los comités éticos correspondientes. El modelo está destinado únicamente a fines académicos y de investigación.",
+    "validacion": "Se verificó la correspondencia dimensional con el modelo CAD de referencia y se realizaron simulaciones de trayectorias de herramienta en entorno CAM."
+  },
+  {
+    "id": "separador-tejidos-vascular",
+    "nombre": "Separador de tejidos para abordaje vascular",
+    "categoria": "Instrumental quirúrgico",
+    "tipo_pieza": "Separador",
+    "compatibilidad": "Procedimientos de abordaje vascular en simuladores de entrenamiento",
+    "material_recomendado": "PLA",
+    "formato": "STL",
+    "descripcion_corta": "Separador para entrenamiento en abordaje vascular sobre modelos anatómicos.",
+    "descripcion_larga": "Separador de tejidos diseñado para prácticas de abordaje vascular en modelos anatómicos simulados. Presenta bordes redondeados para reducir concentraciones de tensión y evitar daños en el material de simulación. El diseño se optimizó para ser fabricado mediante mecanizado CNC a partir de láminas o bloques de polímero.",
+    "imagen_principal": "img/separador-tejidos-1.png",
+    "galeria": [
+      "img/separador-tejidos-1.png"
+    ],
+    "archivo_modelo": "modelos/separador-tejidos-vascular.stl",
+    "indicaciones_cnc": [
+      "Orientar el modelo de forma que la superficie de contacto con el paciente simulado quede paralela a la mesa.",
+      "Utilizar fresas de extremo de 4 a 6 mm para desbaste y herramientas de menor diámetro para radios internos.",
+      "Realizar un pulido manual posterior al mecanizado en las superficies de contacto."
+    ],
+    "procesos_cnc": [
+      "Fresado 3 ejes"
+    ],
+    "advertencias": "El uso del separador se limita a simuladores de entrenamiento. No debe emplearse directamente en pacientes reales sin rediseño, validación mecánica y evaluación de biocompatibilidad.",
+    "validacion": "Se fabricaron prototipos en PLA para validación dimensional básica y pruebas de ergonomía en escenarios de simulación."
+  },
+  {
+    "id": "adaptador-sensor-presion",
+    "nombre": "Adaptador para sensor de presión invasiva",
+    "categoria": "Accesorios",
+    "tipo_pieza": "Adaptador",
+    "compatibilidad": "Conectores Luer Lock estándar",
+    "material_recomendado": "Aluminio",
+    "formato": "STL",
+    "descripcion_corta": "Adaptador para acoplar sensores de presión invasiva a líneas de monitoreo.",
+    "descripcion_larga": "Adaptador diseñado para integrar sensores de presión invasiva con líneas estándar de monitoreo hemodinámico. El modelo incluye roscas y geometrías de acoplamiento compatibles con conectores Luer Lock, y considera tolerancias ajustadas para asegurar un sellado adecuado cuando se fabrica en aluminio mediante CNC.",
+    "imagen_principal": "img/adaptador-sensor-presion-1.png",
+    "galeria": [
+      "img/adaptador-sensor-presion-1.png"
+    ],
+    "archivo_modelo": "modelos/adaptador-sensor-presion.stl",
+    "indicaciones_cnc": [
+      "Mecanizar el adaptador a partir de barra cilíndrica de aluminio con torno CNC para las características axiales.",
+      "Completar el mecanizado de detalles no axiales mediante fresado CNC.",
+      "Verificar la calidad superficial y tolerancias de roscas utilizando calibres adecuados."
+    ],
+    "procesos_cnc": [
+      "Torneado CNC",
+      "Fresado 3 ejes"
+    ],
+    "advertencias": "El modelo requiere validación de estanqueidad, pruebas de presión y cumplimiento con la normativa aplicable antes de cualquier uso en pacientes.",
+    "validacion": "Validación limitada al nivel de prototipo; se recomienda un protocolo formal de pruebas para su uso clínico."
+  }
+]
